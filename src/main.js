@@ -13,7 +13,7 @@ function onFormSubmit(e) {
 
     refs.gallery.innerHTML = '';
     refs.loader.style.display = 'flex';
-    const query = e.target.elements.input.value.trim(); 
+    const query = e.target.elements['search-text'].value.trim();
             
         getGallery(query).then(data => {
             if (data.hits.length === 0) {
