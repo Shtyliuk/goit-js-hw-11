@@ -4,8 +4,14 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 export const refs = {
     form: document.querySelector('.form'),
     gallery: document.querySelector('.gallery'),
-    loader: document.querySelector('.loader')
-}
+    loader: document.querySelector('.loader'),
+};
+
+// Ініціалізація SimpleLightbox
+const lightbox = new SimpleLightbox('.gallery a', {
+    captionDelay: 250,
+    captionsData: 'alt',
+});
 
 function galleryTemplate(element) {  
     const { webformatURL, largeImageURL, tags, likes, views, comments, downloads } = element;
@@ -32,17 +38,18 @@ function galleryTemplate(element) {
           <p>${downloads}</p>
         </li>
       </ul>
-    </li>`
- }
+    </li>`;
+}
+
+// Функція очищення галереї перед новим пошуком
+export function clearGallery() {
+    refs.gallery.innerHTML = '';
+}
 
 export function renderGallery(elements) { 
-    const markup = elements.hits.map(element => {
-        return galleryTemplate(element)
-    }).join('\n');       
+    const markup = elements.hits.map(galleryTemplate).join('\n');       
     refs.gallery.insertAdjacentHTML('beforeend', markup);
 
-    new SimpleLightbox('.gallery a', {
-    captionDelay: 250,
-    captionsData: 'alt',
-});
+    // Оновлюємо SimpleLightbox
+    lightbox.refresh();
 }
